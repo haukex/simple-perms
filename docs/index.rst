@@ -18,6 +18,11 @@ the original file's permissions and type, as follows.
 
 No changes are ever suggested for symbolic links.
 
+The motivation for this tool comes from a few different needs, such as:
+
+- When copying files from FAT media, they will often have 0o777 permissions
+- When working on a website while having a restrictive umask, files may not be accessible to the webserver
+
 Command-Line Interface
 ----------------------
 

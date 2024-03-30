@@ -93,6 +93,7 @@ def _arg_parser():
     # NOTE in the previous version from igbpyutils, the following was -u|--umask, so that is a minor breaking change
     parser.add_argument('-u', '--mask', help="mask (remove) these permission bits from suggestion (octal)")
     parser.add_argument('paths', nargs='+', help="the files to check")
+    # Possible To-Do for Later: A -s/--silence-errors option to ignore FileNotFoundErrors here
     # Possible To-Do for Later: --exclude using https://pypi.org/project/wcmatch/ ?
     return parser
 
