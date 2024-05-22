@@ -1,6 +1,9 @@
 Development Notes
 =================
 
+Note this is currently referenced by:
+- <https://github.com/haukex/unzipwalk/blob/main/dev/DevNotes.md>
+
 Development Environment
 -----------------------
 
@@ -30,7 +33,7 @@ Release Preparation
   - [ ] Git stash
   - [ ] Whether the Python versions in `dev/local-actions.sh` and the GitHub Actions Workflows need updating
 - [ ] Spellcheck documentation in `simple_perms/__init__.py` and `docs/index.rst`
-- [ ] `make README.md` - generate `README.md` (`make -B` to force)
+- [ ] `make README.md` - generate `README.md` (`make -B` to force) and check formatting
 - [ ] Bump version number in `pyproject.toml`
 - [ ] Update `CHANGELOG.md`
 
