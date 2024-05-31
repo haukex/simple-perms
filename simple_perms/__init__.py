@@ -89,6 +89,7 @@ def _arg_parser():
     parser.add_argument('-a', '--add', help="add these permission bits to all files/dirs (octal)")
     parser.add_argument('-d', '--add-dir', help="add these permission bits to dirs (octal)")
     parser.add_argument('-f', '--add-file', help="add these permission bits to non-dirs (octal)")
+    #TODO: allow turning on --umask via an environment variable
     parser.add_argument('-k', '--umask', action='store_true', help="apply os.umask() to suggested permission bits")
     # NOTE in the previous version from igbpyutils, the following was -u|--umask, so that is a minor breaking change
     parser.add_argument('-u', '--mask', help="mask (remove) these permission bits from suggestion (octal)")
