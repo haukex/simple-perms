@@ -16,7 +16,7 @@ Development Environment
 - [ ] Installing Pyright (if you don't have Node/Pyright already):
   - [ ] Install Node as per <https://github.com/haukex/toolshed/blob/main/notes/JavaScript.md>
   - [ ] `npm install -g pyright`
-- [ ] `pip install build twine` - for making releases
+- [ ] `pip install --upgrade build twine` - for making releases
 
 Testing
 -------
