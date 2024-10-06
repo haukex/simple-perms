@@ -1,11 +1,10 @@
 Changelog for simple-perms
 ==========================
 
-1.0.0 - *unreleased*
---------------------
+1.0.0 - 2024-10-06
+------------------
 
 - Package `simple_perms` now has a `__main__.py` so you can invoke the CLI tool with `python3 -m simple_perms` as well
-- ...
 
 0.9.1 - 2024-03-30
 ------------------

@@ -15,6 +15,11 @@ the original file’s permissions and type, as follows.
 
 No changes are ever suggested for symbolic links.
 
+The motivation for this tool comes from a few different needs, such as:
+
+- When copying files from FAT media, they will often have 0o777 permissions
+- When working on a website while having a restrictive umask, files may not be accessible to the webserver
+
 ## Command-Line Interface
 
 ```default
@@ -44,7 +49,7 @@ optional arguments:
 
 ## Functions
 
-### simple_perms.suggest_perms(st_mode: [int](https://docs.python.org/3/library/functions.html#int), \*, group_write: [bool](https://docs.python.org/3/library/functions.html#bool) | [None](https://docs.python.org/3/library/constants.html#None) = None)
+### simple_perms.suggest_perms(st_mode: [int](https://docs.python.org/3/library/functions.html#int), \*, group_write: [bool](https://docs.python.org/3/library/functions.html#bool) | [None](https://docs.python.org/3/library/constants.html#None) = None) → [tuple](https://docs.python.org/3/library/stdtypes.html#tuple)[[int](https://docs.python.org/3/library/functions.html#int), [int](https://docs.python.org/3/library/functions.html#int)]
 
 Given a set of file mode bits ([`st_mode`](https://docs.python.org/3/library/os.html#os.stat_result.st_mode)), this function suggests new permissions
 from a small set of “simple” permissions (0o444, 0o555, 0o644, 0o755, 0o664, 0o775).

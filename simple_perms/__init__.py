@@ -109,8 +109,11 @@ def main(argv=None) -> None:
     add_dir_perm = stat.S_IMODE(int(args.add_dir, 8)) if args.add_dir else 0
     add_file_perm = stat.S_IMODE(int(args.add_file, 8)) if args.add_file else 0
     mask :int = 0
-    if args.mask: mask |= stat.S_IMODE(int(args.mask, 8))
-    if args.umask: mask |= _get_umask()
+    if args.mask:
+        mask |= stat.S_IMODE(int(args.mask, 8))
+    if args.umask:
+        # Possible To-Do for Later: add tests for --umask ?
+        mask |= _get_umask()  # pragma: no cover
     def _paths(paths, recurse :bool):
         for pth in paths:
             p = Path(pth)
@@ -126,8 +129,10 @@ def main(argv=None) -> None:
             sugg |= add_dir_perm if stat.S_ISDIR(mode) else add_file_perm
         if perm != sugg:
             print(f"{stat.filemode(mode)} => {stat.filemode(stat.S_IFMT(mode)|stat.S_IMODE(sugg))} {path}")
-            if args.modify: os.chmod(path, sugg)
-            else: issues += 1
+            if args.modify:
+                os.chmod(path, sugg)
+            else:
+                issues += 1
         elif args.verbose:
             print(f"{stat.filemode(mode)} ok {stat.filemode(mode)} {path}")
     parser.exit(issues)

@@ -2,14 +2,13 @@
 # https://www.gnu.org/software/make/manual/make.html
 
 py_code_locs = simple_perms tests docs/*.py docs/_ext/*.py
+# Hint: $(filter-out whatever,$(py_code_locs))
 # Remember to keep in sync with GitHub Actions workflows:
 requirement_txts = dev/requirements.txt docs/requirements.txt
 perm_checks = ./* .gitignore .vscode .github
 
-# Remember venv only sets up the `python3` alias if it was called from `python3`,
-# so it's generally more reliable to call `python` instead, though on some old
-# systems that may still refer to Python 2 (`sudo apt-get install python-is-python3`).
-PYTHON3BIN = python  # user can change this on the `make` command line
+# The user can change the following on the command line, but note that some tools below won't use this variable!
+PYTHON3BIN = python
 
 .PHONY: help tasklist installdeps test
 .PHONY: smoke-checks nix-checks shellcheck ver-checks other-checks coverage unittest
@@ -36,13 +35,16 @@ installdeps:  ## Install project dependencies
 	@set -euxo pipefail
 	$(PYTHON3BIN) -m pip install --upgrade --upgrade-strategy=eager --no-warn-script-location pip wheel
 	$(PYTHON3BIN) -m pip install --upgrade --upgrade-strategy=eager --no-warn-script-location $(foreach x,$(requirement_txts),-r $(x))
-	pre-commit install -c dev/pre-commit.yml
+	$(PYTHON3BIN) -m pre_commit install -c dev/pre-commit.yml
 	# for modules/packages:
 	# $(PYTHON3BIN) -m pip install --editable .
 
 smoke-checks:  ## Basic smoke tests
 	@set -euxo pipefail
 	# example: [[ "$$OSTYPE" =~ linux.* ]]  # this project only runs on Linux
+	# make sure that PYTHON3BIN and `python3` refer to the same Python (on some old systems `python` is still Python 2 - `sudo apt-get install python-is-python3`)
+	[[ "$$( $(PYTHON3BIN) -c 'import sys; print(sys.exec_prefix+" "+sys.version.replace("\n",""))' )" == "$$( python3 -c 'import sys; print(sys.exec_prefix+" "+sys.version.replace("\n",""))' )"  ]]
+	# make sure we're on Python 3
 	[[ "$$($(PYTHON3BIN) --version)" =~ ^Python\ 3\. ]]
 
 nix-checks:  ## Checks that depend on a *NIX OS/FS
@@ -77,16 +79,16 @@ ver-checks:  ## Checks that depend on the Python version
 	@set -euxo pipefail
 	# https://microsoft.github.io/pyright/#/command-line
 	npx pyright --project pyproject.toml --pythonpath "$$( $(PYTHON3BIN) -c 'import sys; print(sys.executable)' )" $(py_code_locs)
-	mypy --config-file pyproject.toml $(py_code_locs)
+	$(PYTHON3BIN) -m mypy --config-file pyproject.toml $(py_code_locs)
 	# Note I'm not sure if the following are actually version-dependent, but because they parse the Python code, I'll leave them here.
-	flake8 --toml-config=pyproject.toml $(py_code_locs)
-	pylint --rcfile=pyproject.toml --recursive=y $(py_code_locs)
+	$(PYTHON3BIN) -m flake8 --toml-config=pyproject.toml $(py_code_locs)
+	$(PYTHON3BIN) -m pylint --rcfile=pyproject.toml --recursive=y $(py_code_locs)
 
 other-checks:  ## Checks not depending on the Python version
 	@set -euxo pipefail
-	pre-commit run -c dev/pre-commit.yml --all-files
+	$(PYTHON3BIN) -m pre_commit run -c dev/pre-commit.yml --all-files
 	# note the following is on one line b/c GitHub macOS Action Runners are running bash 3.2 and the multiline version didn't work there...
-	for REQ in $(requirement_txts); do pur --dry-run-changed --nonzero-exit-code -r "$$REQ"; done
+	for REQ in $(requirement_txts); do $(PYTHON3BIN) -m pur --skip-gt --dry-run-changed --nonzero-exit-code -r "$$REQ"; done
 
 unittest:  ## Run unit tests
 	@PYTHONDEVMODE=1 PYTHONWARNINGS=error PYTHONWARNDEFAULTENCODING=1 $(PYTHON3BIN) -m unittest -v
@@ -100,7 +102,7 @@ coverage:  ## Run unit tests with coverage
 	$(PYTHON3BIN) -m coverage xml --rcfile=pyproject.toml
 	set +x
 	# We don't use --fail_under=100 above because then the report won't be written.
-	# Also, the GitHub macOS runners didn't like the following (probably due to the old bash),
+	# Also, the GitHub macOS runners didn't like doing the following check in bash (probably due to the old bash),
 	# so we'll just hand it off to Perl:
 	$(PYTHON3BIN) -m coverage json --rcfile=pyproject.toml -o- | jq .totals.percent_covered \
 		| perl -wMstrict -0777 -MTerm::ANSIColor=colored -ne \
