@@ -34,6 +34,7 @@ simple-perms = "simple_perms:main"
 [project.urls]
 "Repository" = "https://github.com/haukex/simple-perms"
 "Bug Tracker" = "https://github.com/haukex/simple-perms/issues"
+"Changelog" = "https://github.com/haukex/simple-perms/blob/main/CHANGELOG.md"
 
 
 # Individual lines can be ignored with:
