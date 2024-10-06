@@ -47,10 +47,10 @@ Releasing
 - [ ] `git push --tags`
 - [ ] watch GitHub Actions
 - [ ] `python3 -m build`
-- [ ] `twine check dist/simple-perms-*.tar.gz`
-- [ ] `tar tzvf dist/simple-perms-*.tar.gz` to inspect the package
-- [ ] `dev/isolated-dist-test.sh dist/simple-perms-*.tar.gz`
-- [ ] `twine upload dist/simple-perms-*.tar.gz`
+- [ ] `twine check dist/simple_perms-*.tar.gz`
+- [ ] `tar tzvf dist/simple_perms-*.tar.gz` to inspect the package
+- [ ] `dev/isolated-dist-test.sh dist/simple_perms-*.tar.gz`
+- [ ] `twine upload dist/simple_perms-*.tar.gz`
 - [ ] New GitHub Release: Title "simple-perms vX.X.X", body from the changelog, link to PyPI (specific version); attach `.tar.gz` to release
 - [ ] `pip3 install --upgrade simple-perms` and `simple-perms -h`
 - [ ] `git clean -dxf dist *.egg-info`
