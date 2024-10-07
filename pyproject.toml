@@ -36,6 +36,7 @@ simple-perms = "simple_perms:main"
 "Bug Tracker" = "https://github.com/haukex/simple-perms/issues"
 "Changelog" = "https://github.com/haukex/simple-perms/blob/main/CHANGELOG.md"
 
+# ##### ##### ##### ##### ##### Hauke's Python Type Checker / Linter Settings ##### ##### ##### ##### #####
 
 # Individual lines can be ignored with:
 # pylance: ``# pyright: ignore [settingName]``
