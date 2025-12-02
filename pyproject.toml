@@ -7,17 +7,18 @@ name = "simple-perms"
 description = "Simplify *NIX Permissions"
 version = "1.0.0"
 authors = [ { name="Hauke D", email="haukex@zero-g.net" } ]
+# https://spdx.org/licenses/
+license = "LGPL-3.0-or-later"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 # https://pypi.org/classifiers/
 classifiers = [
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
-    "License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)",
+    "Programming Language :: Python :: 3.14",
     "Development Status :: 5 - Production/Stable",
     "Operating System :: POSIX",
     "Operating System :: Unix",
@@ -39,10 +40,13 @@ simple-perms = "simple_perms:main"
 # ##### ##### ##### ##### ##### Hauke's Python Type Checker / Linter Settings ##### ##### ##### ##### #####
 
 # Individual lines can be ignored with:
-# pylance: ``# pyright: ignore [settingName]``
-# pylint:  ``# pylint: disable=setting-name``
-# flake8:  ``# noqa: CODE``
-# mypy:    ``# type: ignore[setting-name]``
+# pylance:  ``# pyright: ignore [settingName]``
+# pylint:   ``# pylint: disable=setting-name``
+# flake8:   ``# noqa: CODE``
+# mypy:     ``# type: ignore[setting-name]``
+# coverage: ``# pragma: no cover``, ``# pragma: no branch``, and https://pypi.org/project/coverage-simple-excludes/
+
+# spell-checker: ignore setuptools pylint noqa mypy venv rcfile pyproject inlinevar overgeneral argparse booleaness
 
 # ##### ##### ##### ##### ##### https://github.com/microsoft/pyright/blob/main/docs/configuration.md ##### ##### ##### ##### #####
 
@@ -58,14 +62,15 @@ reportMissingParameterType = "none"
 reportMissingTypeArgument = "none"
 reportGeneralTypeIssues = "none"  # too bad there isn't more fine-grained control than this
 reportUnnecessaryTypeIgnoreComment = "none"  # this flags too many comments; we use mypy's `warn_unused_ignores` instead
-reportShadowedImports = "warning"
 reportImportCycles = "error"
 reportPropertyTypeMismatch = "warning"
 
 # ##### ##### ##### ##### ##### https://coverage.readthedocs.io/en/latest/config.html ##### ##### ##### ##### #####
 
 [tool.coverage.run]
+plugins = ["coverage_simple_excludes"]
 command_line = "-m unittest -v"
+relative_files = true
 branch = true
 omit = [
     "**/.venv*/**",
@@ -146,10 +151,6 @@ ignored-modules = ["ldap"]
 # number of processors available to use, and will cap the count on Windows to
 # avoid hangs.
 jobs = 0
-
-# When enabled, pylint would attempt to guess common misconfiguration and emit
-# user-friendly hints instead of false-positive error messages.
-suggestion-mode = true
 
 [tool.pylint.basic]
 

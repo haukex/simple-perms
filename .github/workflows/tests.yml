@@ -15,17 +15,17 @@ jobs:
       matrix:
         os: [Ubuntu, macOS]
         # Remember that some tests below only run on one version, so keep that up-to-date.
-        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
     runs-on: ${{ matrix.os }}-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: lts/*
       - name: Install pyright
         run: npm install --global pyright
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
           allow-prereleases: true
@@ -38,9 +38,6 @@ jobs:
         run: make installdeps
       - name: Run checks and lint
         run: make smoke-checks ver-checks
-      - name: Run version-independent checks
-        if: ${{ matrix.python-version == '3.12' }}
-        run: make other-checks
       - name: Run nix-checks and shellcheck on Linux
         if: ${{ matrix.os == 'Ubuntu' }}
         # Only run nix-checks on Ubuntu because it doesn't work on Windows and bash is too old on macOS.
@@ -48,3 +45,4 @@ jobs:
         run: make nix-checks shellcheck
       - name: Tests and Coverage
         run: make coverage
+# spell-checker: ignore shellcheck installdeps

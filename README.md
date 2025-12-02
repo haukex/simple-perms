@@ -30,7 +30,7 @@ Check for Simple Permissions
 positional arguments:
   paths                 the files to check
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
   -v, --verbose         list all files
   -r, --recurse         recurse into directories

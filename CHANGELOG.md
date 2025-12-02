@@ -1,6 +1,11 @@
 Changelog for simple-perms
 ==========================
 
+1.0.1 - *not yet released*
+------------------
+
+- Stop testing on Python 3.9 (EOL) and begin testing on Python 3.14
+
 1.0.0 - 2024-10-06
 ------------------
 
